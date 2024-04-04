@@ -47,23 +47,23 @@
     );                                           \
   } while(0)
 
-napi_value get_from_i64(napi_env env) {
+napi_value get_from_i64(napi_env env, napi_callback_info info) {
   napi_value result;
   NODE_API_CALL(env, napi_create_bigint_int64(env, 1234, &result));
   return result;
 }
 
-napi_value get_from_words_1(napi_env env) {
+napi_value get_from_words_1(napi_env env, napi_callback_info info) {
   napi_value result;
-  uint64_t words[] = {1234};
-  NODE_API_CALL(env, napi_create_bigint_words(env, 0, 1, &words, &result));
+  const uint64_t words[] = {1234};
+  NODE_API_CALL(env, napi_create_bigint_words(env, 0, 1, &words[0], &result));
   return result;
 }
 
-napi_value get_from_words_2(napi_env env) {
+napi_value get_from_words_2(napi_env env, napi_callback_info info) {
   napi_value result;
   uint64_t words[] = {1234, 5678};
-  NODE_API_CALL(env, napi_create_bigint_words(env, 0, 2, &words, &result));
+  NODE_API_CALL(env, napi_create_bigint_words(env, 0, 2, &words[0], &result));
   return result;
 }
 
