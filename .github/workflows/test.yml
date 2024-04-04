@@ -16,6 +16,6 @@ jobs:
         with:
           image: node:20-slim
           options: --platform linux/${{ matrix.arch }} -v ${{ github.workspace }}:/workspace -w /workspace
-          run: >-
+          run: |
             npm install
             npm test
