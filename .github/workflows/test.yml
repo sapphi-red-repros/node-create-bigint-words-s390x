@@ -1,0 +1,25 @@
+name: test
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ['x86_64', 'arm64', 'ppc64le', 's390x']
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: node:20-slim
+          options: --platform linux/${{ matrix.arch }} -v ${{ github.workspace }}:/workspace -w /workspace
+          run: >-
+            npm install
+            npm test
+      - name: Upload bin folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: bin
+          path: bin/

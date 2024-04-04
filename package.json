@@ -1,0 +1,13 @@
+{
+  "name": "foo",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "install": "node-gyp configure && node-gyp build",
+    "test": "node spec"
+  },
+  "dependencies": {
+    "node-gyp": "^10.1.0"
+  }
+}
