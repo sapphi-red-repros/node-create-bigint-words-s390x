@@ -14,7 +14,7 @@ jobs:
       - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - uses: addnab/docker-run-action@v3
         with:
-          image: node:20-slim
+          image: node:20
           options: --platform linux/${{ matrix.arch }} -v ${{ github.workspace }}:/workspace -w /workspace
           run: |
             npm install
