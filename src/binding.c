@@ -1,6 +1,6 @@
 #define NAPI_VERSION 6
 #include <node_api.h>
-
+#include <stdio.h>
 
 #define NODE_API_CALL(env, call)                                  \
   do {                                                            \
@@ -47,9 +47,19 @@
     );                                           \
   } while(0)
 
+void print_bytes(void *ptr, int size) {
+  unsigned char *p = ptr;
+  for (int i = 0; i < size; i++) {
+    printf("%02hhX ", p[i]);
+  }
+  printf("\n");
+}
+
 napi_value get_from_i64(napi_env env, napi_callback_info info) {
   napi_value result;
-  NODE_API_CALL(env, napi_create_bigint_int64(env, 1234, &result));
+  const int64_t value = 1234;
+  NODE_API_CALL(env, napi_create_bigint_int64(env, value, &result));
+  print_bytes((void*)&value, sizeof value);
   return result;
 }
 
@@ -57,6 +67,7 @@ napi_value get_from_words_1(napi_env env, napi_callback_info info) {
   napi_value result;
   const uint64_t words[] = {1234};
   NODE_API_CALL(env, napi_create_bigint_words(env, 0, 1, &words[0], &result));
+  print_bytes((void*)&words, sizeof words);
   return result;
 }
 
@@ -64,6 +75,7 @@ napi_value get_from_words_2(napi_env env, napi_callback_info info) {
   napi_value result;
   uint64_t words[] = {1234, 5678};
   NODE_API_CALL(env, napi_create_bigint_words(env, 0, 2, &words[0], &result));
+  print_bytes((void*)&words, sizeof words);
   return result;
 }
 
